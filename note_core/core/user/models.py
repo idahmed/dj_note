@@ -22,11 +22,6 @@ class User(DjangoModelCleanMixin, AbstractUser):
         is_staff: bool field (If true user can access admin pages)
     """
 
-    class Roles(models.TextChoices):
-        OWNER = "Owner", _("Owner")
-        ADMIN = "Admin", _("Admin")
-        USER = "User", _("User")
-
     EN = "en"
     AR = "ar"
     LANGUAGE_CHOICES = (
@@ -39,15 +34,6 @@ class User(DjangoModelCleanMixin, AbstractUser):
         _("Language"), choices=LANGUAGE_CHOICES, default=EN, max_length=5
     )
     is_verified = models.BooleanField(default=False)
-    role = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True,
-        choices=Roles.choices,
-        help_text=_("Role is for determining the access level control of the user."),
-    )
-
-    title = models.CharField(max_length=50, null=True, blank=True,)
 
     objects = UserManager()
 

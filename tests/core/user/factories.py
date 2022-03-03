@@ -4,7 +4,6 @@ import random
 import string
 
 import factory
-from django.db.models import signals
 from factory import Faker
 
 from note_core.core.user.models import User
@@ -13,10 +12,7 @@ from note_core.core.user.models import User
 class UserFactory(factory.django.DjangoModelFactory):
     first_name = Faker("first_name")
     last_name = Faker("last_name")
-    email = factory.Sequence(lambda n: f"email_{n}@1fort.com")
-
-    # TODO: add business subfactory
-    # business = factory.SubFactory(BusinessFactory)
+    email = factory.Sequence(lambda n: f"email_{n}@note.com")
 
     password = "".join(random.choice(string.ascii_lowercase) for i in range(20))
 
@@ -32,9 +28,5 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     @classmethod
     def _create(cls, target_class, *args, **kwargs):
-        signals.post_save.disconnect(
-            sender=User, dispatch_uid="create_acronis_tenant_member"
-        )
-        signals.post_save.disconnect(sender=User, dispatch_uid="send_welcoming_email")
         manager = cls._get_manager(target_class)
         return manager.create_user(*args, **kwargs)
