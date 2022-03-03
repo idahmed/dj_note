@@ -7,7 +7,6 @@ from note_core.core.note.models import Note
 class NoteAdmin(admin.ModelAdmin):
     search_fields = [
         "title",
-
     ]
     list_display = [
         "title",
