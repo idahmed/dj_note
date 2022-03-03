@@ -39,4 +39,6 @@ urlpatterns = [
     path("auth", include("note_core.apis.auth.urls", namespace="auth")),
     # User
     path("user", include("note_core.apis.user.urls", namespace="user")),
+    # Note
+    path("note", include("note_core.apis.note.urls", namespace="note")),
 ]

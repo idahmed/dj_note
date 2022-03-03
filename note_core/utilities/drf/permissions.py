@@ -3,11 +3,17 @@ from rest_framework import permissions
 
 class OwnerPermission(permissions.BasePermission):
     """
-    Permission to oweners only.
+    Object-level permission to only allow updating his own notes
     """
 
-    def has_permission(self, request, view):
-        return request.user.role == "Owner"
+    def has_object_permission(self, request, view, obj):
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # obj here is a UserProfile instance
+        return obj.user == request.user
 
 
 class AdminPermission(permissions.BasePermission):
