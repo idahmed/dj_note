@@ -1,0 +1,19 @@
+- model: user.user
+  pk: 1
+  fields:
+    # password: 123
+    password: argon2$argon2i$v=19$m=512,t=2,p=2$RlZadHg1blhtWG81$uE2BiBzt6ZsONRXTXxdn0Q
+    last_login: null
+    is_superuser: true
+    username: "username"
+    role: "Owner"
+    first_name: ''
+    last_name: ''
+    is_staff: true
+    is_active: true
+    date_joined: '2020-08-30 12:48:46.442031+00:00'
+    email: admin@note.com
+    language: en
+    is_verified: false
+    groups: []
+    user_permissions: []

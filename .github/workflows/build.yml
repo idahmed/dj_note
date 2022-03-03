@@ -1,0 +1,49 @@
+name: Build & Test
+
+on:
+  push:
+    branches_ignore:
+      - master
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Touch docker-compose.local.env
+      run: touch docker-compose.local.env
+
+    # Pull the latest image to build, and avoid caching pull-only images.
+    # (docker pull is faster than caching in most cases.)
+    - run: docker-compose pull
+
+    # Inspect the images before loading cache
+    - name: Inspect Docker Images before CacheLoad
+      run: docker images -a
+
+    # In this step, this action saves a list of existing images,
+    # the cache is created without them in the post run.
+    # It also restores the cache if it exists.
+    - uses: satackey/action-docker-layer-caching@v0.0.11
+      # Ignore the failure of a step and avoid terminating the job.
+      continue-on-error: true
+
+    # Inspect the images before loading cache
+    - name: Inspect Docker Images after CacheLoad
+      run: docker images -a
+
+    - name: Build
+      run: docker-compose build
+
+    - name: Purge untagged images
+      run: docker images --filter "dangling=true" -q --no-trunc | xargs -r docker rmi
+
+    - name: Run Unit Testing
+      run: make test
+
+    - name: Test Code Linter
+      run: make lint

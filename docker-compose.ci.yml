@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+  app: &app
+    build: .
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: >
+      bash -c "python manage.py runserver 0.0.0.0:8000"
+
+  migrate:
+    <<: *app
+    command: bash -c "python manage.py migrate && python manage.py loaddata fixtures/*"
+    ports: []
+    depends_on:
+      - app
+
+  db:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=db
+    tmpfs:
+      - /var/lib/postgresql/data
+    ports:
+     - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+

@@ -1,0 +1,20 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+build:
+  docker:
+    web: Dockerfile
+release:
+  command:
+    - python manage.py migrate
+  image: web
+run:
+  web:
+    command:
+      - python manage.py collectstatic --no-input -v 0 && /bin/bash heroku-exec.sh && uwsgi --http :$PORT --enable-threads --http-keepalive --processes 4 --wsgi-file config/wsgi.py --check-static /public_assets --static-map /static=/public_assets --static-map /media=/app/media --static-map /favicon.ico=/public_assets/favicon.ico --logto /dev/stdout --logto2 /dev/stderr --mimefile /etc/mime.types --disable-logging
+    image: web
+  worker:
+    command:
+      - bash heroku-exec.sh && celery -A config worker -l info -E -B --concurrency=5
+    image: web
