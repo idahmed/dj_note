@@ -50,7 +50,7 @@ class UserViewSet(
     @swagger_auto_schema(
         operation_summary="Update user",
         operation_description="""
-            Update user attributes (first/last name, title, )
+            Update user attributes (first/last name)
         """,
         tags=["user",],
     )

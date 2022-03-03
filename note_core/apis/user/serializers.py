@@ -11,8 +11,6 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
-            "title",
-            "role",
             "date_joined",
         ]
         extra_kwargs = {

@@ -6,7 +6,6 @@
     last_login: null
     is_superuser: true
     username: "username"
-    role: "Owner"
     first_name: ''
     last_name: ''
     is_staff: true
