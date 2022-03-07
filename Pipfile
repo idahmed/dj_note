@@ -52,7 +52,7 @@ stripe = "==2.63.0"
 argparse = "==1.4.0"
 
 [dev-packages]
-bandit = "==1.7.1"
+bandit = "==1.7.4"
 black = "==21.12b0"
 factory-boy = "==3.2.1"
 flake8 = "==4.0.1"
