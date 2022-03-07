@@ -53,7 +53,7 @@ argparse = "==1.4.0"
 
 [dev-packages]
 bandit = "==1.7.1"
-black = "==21.12b0"
+black = "==22.1.0"
 factory-boy = "==3.2.1"
 flake8 = "==4.0.1"
 ipython = "==7.30.1"
