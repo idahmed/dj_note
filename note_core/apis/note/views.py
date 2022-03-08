@@ -16,9 +16,10 @@ class NoteViewSet(
     mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet,
 ):
-    http_method_names = ["get", "post", "patch"]
+    http_method_names = ["get", "post", "patch", "delete"]
     queryset = Note.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
@@ -82,3 +83,15 @@ class NoteViewSet(
         self, request: Request, *args: typing.Any, **kwargs: typing.Any
     ) -> Response:
         return super().retrieve(request=request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_summary="Delete Note",
+        operation_description="""
+            Delete Note
+        """,
+        tags=["Note",],
+    )
+    def destroy(
+        self, request: Request, *args: typing.Any, **kwargs: typing.Any
+    ) -> Response:
+        return super().destroy(request=request, *args, **kwargs)

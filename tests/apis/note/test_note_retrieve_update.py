@@ -30,3 +30,8 @@ def test_retrieve_updating_note(api_client, user):
     assert Note.objects.count() == 2
     response = api_client.get(reverse("note:note-detail", args=[note_.id]))
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    # Test delete
+    response = api_client.delete(reverse("note:note-detail", args=[note.id]))
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert Note.objects.count() == 1
